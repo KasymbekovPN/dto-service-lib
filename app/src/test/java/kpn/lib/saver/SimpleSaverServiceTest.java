@@ -2,11 +2,10 @@ package kpn.lib.saver;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.function.Function;
-
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import kpn.lib.converter.MultiConverter;
 import kpn.lib.exceptions.DTOServiceException;
 
 public class SimpleSaverServiceTest {
@@ -15,8 +14,9 @@ public class SimpleSaverServiceTest {
     public void shouldCheckFailSaving(){
         String expectedResult = "wrong 123";
         int entity = 123;
+
         SimpleSaveService<Integer, String> service 
-            = new SimpleSaveService<>(new FailTestSaver(), null, createFailConverter(expectedResult));
+            = new SimpleSaveService<>(new FailTestSaver(), createConverter(null, expectedResult));
 
         String result = service.save(entity);
         assertThat(expectedResult).isEqualTo(result);
@@ -27,25 +27,20 @@ public class SimpleSaverServiceTest {
         String expectedResult = "success 123";
         int entity = 123;
         SimpleSaveService<Integer, String> service 
-            = new SimpleSaveService<>(new SuccessTestSaver(), createSuccessConverter(expectedResult, entity), null);
+            = new SimpleSaveService<>(new SuccessTestSaver(), createConverter(expectedResult, null));
 
         String result = service.save(entity);
         assertThat(expectedResult).isEqualTo(result);
     }
 
-    private Function<DTOServiceException, String> createFailConverter(String expectedResult) {
-        TestFailConverter converter = Mockito.mock(TestFailConverter.class);
+    private MultiConverter<Integer, String> createConverter(String successExpectedResult, String failExpectedResult) {
+        TestMultiConverter converter = Mockito.mock(TestMultiConverter.class);
         Mockito
-            .when(converter.apply(Mockito.anyObject()))
-            .thenReturn(expectedResult);
-        return converter;
-    }
-
-    private Function<Integer, String> createSuccessConverter(String expectedResult, int entity) {
-        TestSuccessConverter converter = Mockito.mock(TestSuccessConverter.class);
+            .when(converter.convertValue(Mockito.anyObject()))
+            .thenReturn(successExpectedResult);
         Mockito
-            .when(converter.apply(entity))
-            .thenReturn(expectedResult);
+            .when(converter.convertException(Mockito.anyObject()))
+            .thenReturn(failExpectedResult);
         return converter;
     }
 
@@ -66,6 +61,5 @@ public class SimpleSaverServiceTest {
 
     }
 
-    private abstract class TestFailConverter implements Function<DTOServiceException, String> {}
-    private abstract class TestSuccessConverter implements Function<Integer, String> {}
+    private abstract class TestMultiConverter implements MultiConverter<Integer, String>{}
 }
