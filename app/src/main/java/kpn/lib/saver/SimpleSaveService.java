@@ -1,7 +1,5 @@
 package kpn.lib.saver;
 
-import java.util.function.Function;
-
 import kpn.lib.converter.MultiConverter;
 import kpn.lib.exceptions.DTOServiceException;
 
