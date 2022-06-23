@@ -23,6 +23,11 @@ public abstract class AbstractDomain<I> implements Domain<I> {
     }
 
     @Override
+    public String getInfo() {
+        return DEFAULT_GETTING_RESULT;
+    }
+
+    @Override
     public String getInDeep(Queue<String> path) {
         String key = path.poll();
         if (key != null){
@@ -68,7 +73,9 @@ public abstract class AbstractDomain<I> implements Domain<I> {
         return true;
     }
 
-    protected abstract Map<String, Function<GetterArg<I>, String>> takeGetters();
+    protected Map<String, Function<GetterArg<I>, String>> takeGetters(){
+        return Map.of();
+    }
 
     protected static class GetterArg<I> {
         private final Domain<I> domain;
