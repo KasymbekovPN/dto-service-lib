@@ -1,5 +1,5 @@
 package kpn.lib.predicate;
 
-public interface PredicateService<R, P> {
+public interface PredicateService<P, R> {
     R execute(P predicate);
 }

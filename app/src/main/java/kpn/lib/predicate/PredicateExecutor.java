@@ -2,9 +2,11 @@ package kpn.lib.predicate;
 
 import java.util.List;
 
+import kpn.lib.collection.DomainCollection;
+import kpn.lib.domains.Domain;
 import kpn.lib.exceptions.DTOServiceException;
 
 @FunctionalInterface
-public interface PredicateExecutor<P, E> {
-    List<E> execute(P predicate) throws DTOServiceException;
+public interface PredicateExecutor<P, I, D extends Domain<I>> {
+    DomainCollection<D> execute(P predicate) throws DTOServiceException;
 }
