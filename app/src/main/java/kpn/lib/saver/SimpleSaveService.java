@@ -1,25 +1,28 @@
 package kpn.lib.saver;
 
+import kpn.lib.collection.DomainCollection;
 import kpn.lib.converter.MultiConverter;
+import kpn.lib.domains.Domain;
 import kpn.lib.exceptions.DTOServiceException;
 
-public class SimpleSaveService<E, R> implements SaveService<E, R> {
-    private final Saver<E> saver;
-    private final MultiConverter<E, R> converter;
+public class SimpleSaveService<I, D extends Domain<I>, R> implements SaveService<I, D, R> {
+    
+    private final Saver<I, D> saver;
+    private final MultiConverter<DomainCollection<D>, R> converter;
 
-    public SimpleSaveService(Saver<E> saver,
-                             MultiConverter<E, R> converter) {
+    public SimpleSaveService(Saver<I, D> saver,
+                             MultiConverter<DomainCollection<D>, R> converter) {
         this.saver = saver;
         this.converter = converter;
     }
 
     @Override
-    public R save(E entity) {
-        try{
-            E saved = saver.save(entity);
-            return converter.convertValue(saved);
-        } catch(DTOServiceException ex){
-            return converter.convertException(ex);
+    public R save(D domain) {
+        try {
+            DomainCollection<D> collection = saver.save(domain);
+            return converter.convertValue(collection);
+        } catch (DTOServiceException e) {
+            return converter.convertException(e);
         }
     }
 }
