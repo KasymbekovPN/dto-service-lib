@@ -3,52 +3,31 @@ package kpn.lib.saver;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import kpn.lib.collection.DomainCollection;
 import kpn.lib.collection.ImmutableDomainCollection;
-import kpn.lib.converter.MultiConverter;
-import kpn.lib.domains.AbstractDomain;
 import kpn.lib.exceptions.DTOServiceException;
+import kpn.utils.MultiConvUtils;
+import kpn.utils.TestDomain;
 
 public class SimpleSaverServiceTest {
-    
-    private static final String SUCCESS_RESULT = "success";
-    private static final String FAIL_RESULT = "fail";
 
     @Test
     public void shouldCheckFailSaving(){
         SimpleSaveService<Long, TestDomain, String> service 
-            = new SimpleSaveService<>(new TestSaver(false), createConverter());
+            = new SimpleSaveService<>(new TestSaver(false), MultiConvUtils.create());
 
         String result = service.save(new TestDomain(0L));
-        assertThat(result).isEqualTo(FAIL_RESULT);
+        assertThat(result).isEqualTo(MultiConvUtils.FAIL_RESULT);
     }
 
     @Test
     public void shouldCheckSuccessSaving(){
         SimpleSaveService<Long, TestDomain, String> service 
-            = new SimpleSaveService<>(new TestSaver(true), createConverter());
+            = new SimpleSaveService<>(new TestSaver(true), MultiConvUtils.create());
 
         String result = service.save(new TestDomain(0L));
-        assertThat(result).isEqualTo(SUCCESS_RESULT);
-    }
-
-    private TestConverter createConverter(){
-        TestConverter converter = Mockito.mock(TestConverter.class);
-        Mockito
-            .when(converter.convertValue(Mockito.anyObject()))
-            .thenReturn(SUCCESS_RESULT);
-        Mockito
-            .when(converter.convertException(Mockito.anyObject()))
-            .thenReturn(FAIL_RESULT);
-        return converter;
-    }
-
-    private static class TestDomain extends AbstractDomain<Long>{
-        public TestDomain(long id) {
-            setId(id);
-        }
+        assertThat(result).isEqualTo(MultiConvUtils.SUCCESS_RESULT);
     }
 
     private static class TestSaver implements Saver<Long, TestDomain>{
@@ -66,6 +45,4 @@ public class SimpleSaverServiceTest {
             throw new DTOServiceException("");
         }
     }
-
-    private abstract class TestConverter implements MultiConverter<DomainCollection<TestDomain>, String>{}
 }

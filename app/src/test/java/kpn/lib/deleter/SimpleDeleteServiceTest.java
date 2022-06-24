@@ -3,72 +3,49 @@ package kpn.lib.deleter;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import kpn.lib.collection.DomainCollection;
 import kpn.lib.collection.ImmutableDomainCollection;
-import kpn.lib.converter.MultiConverter;
-import kpn.lib.domains.AbstractDomain;
 import kpn.lib.exceptions.DTOServiceException;
+import kpn.utils.MultiConvUtils;
+import kpn.utils.TestDomain;
 
 public class SimpleDeleteServiceTest {
-
-    private static final String SUCCESS_RESULT = "success";
-    private static final String FAIL_RESULT = "fail";
 
     @Test
     public void shouldCheckFailByIdDeleting(){
         SimpleDeleteService<Long, TestDomain, String> service = 
-            new SimpleDeleteService<>(new TestDeleterById(false), null, createConverter());
+            new SimpleDeleteService<>(new TestDeleterById(false), null, MultiConvUtils.create());
 
         String result = service.byId(1L);
-        assertThat(result).isEqualTo(FAIL_RESULT);
+        assertThat(result).isEqualTo(MultiConvUtils.FAIL_RESULT);
     }
 
     @Test
     public void shouldCheckByIdDeleting(){
         SimpleDeleteService<Long, TestDomain, String> service = 
-            new SimpleDeleteService<>(new TestDeleterById(true), null, createConverter());
+            new SimpleDeleteService<>(new TestDeleterById(true), null, MultiConvUtils.create());
 
         String result = service.byId(1L);
-        assertThat(result).isEqualTo(SUCCESS_RESULT);
+        assertThat(result).isEqualTo(MultiConvUtils.SUCCESS_RESULT);
     }
 
     @Test
     public void shouldCheckFailFullDeleting(){
         SimpleDeleteService<Long, TestDomain, String> service = 
-            new SimpleDeleteService<>(null, new TestDeleterAll(false), createConverter());
+            new SimpleDeleteService<>(null, new TestDeleterAll(false), MultiConvUtils.create());
 
         String result = service.all();
-        assertThat(result).isEqualTo(FAIL_RESULT);
+        assertThat(result).isEqualTo(MultiConvUtils.FAIL_RESULT);
     }
 
     @Test
     public void shouldCheckFullDeleting(){
         SimpleDeleteService<Long, TestDomain, String> service = 
-            new SimpleDeleteService<>(null, new TestDeleterAll(true), createConverter());
+            new SimpleDeleteService<>(null, new TestDeleterAll(true), MultiConvUtils.create());
 
         String result = service.all();
-        assertThat(result).isEqualTo(SUCCESS_RESULT);
-    }
-
-    // TODO: move
-    private TestConverter createConverter(){
-        TestConverter converter = Mockito.mock(TestConverter.class);
-        Mockito
-            .when(converter.convertValue(Mockito.anyObject()))
-            .thenReturn(SUCCESS_RESULT);
-        Mockito
-            .when(converter.convertException(Mockito.anyObject()))
-            .thenReturn(FAIL_RESULT);
-        return converter;
-    }
-
-    // TODO: move
-    private static class TestDomain extends AbstractDomain<Long>{
-        public TestDomain(long id) {
-            setId(id);
-        }
+        assertThat(result).isEqualTo(MultiConvUtils.SUCCESS_RESULT);
     }
 
     private static class TestDeleterById implements DeleterById<Long, TestDomain>{
@@ -102,7 +79,4 @@ public class SimpleDeleteServiceTest {
             throw new DTOServiceException("");
         }
     }
-
-    // TODO: move
-    private abstract class TestConverter implements MultiConverter<DomainCollection<TestDomain>, String>{}
 }

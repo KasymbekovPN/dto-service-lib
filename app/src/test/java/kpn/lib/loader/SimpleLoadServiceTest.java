@@ -3,29 +3,26 @@ package kpn.lib.loader;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import kpn.lib.collection.DomainCollection;
 import kpn.lib.collection.ImmutableDomainCollection;
-import kpn.lib.converter.MultiConverter;
-import kpn.lib.domains.AbstractDomain;
 import kpn.lib.exceptions.DTOServiceException;
+import kpn.utils.MultiConvUtils;
+import kpn.utils.TestDomain;
 
 public class SimpleLoadServiceTest {
-    
-    private static final String SUCCESS_RESULT = "success";
-    private static final String FAIL_RESULT = "fail";
+
 
     @Test
     public void shouldCheckFailLoadingById(){
         SimpleLoadService<Long, TestDomain, String> service = new SimpleLoadService<>(
             new TestLoaderById(false),
             null,
-            createConverter()
+            MultiConvUtils.create()
         );
 
         String result = service.byId(1L);
-        assertThat(result).isEqualTo(FAIL_RESULT);
+        assertThat(result).isEqualTo(MultiConvUtils.FAIL_RESULT);
     }
 
     @Test
@@ -33,11 +30,11 @@ public class SimpleLoadServiceTest {
         SimpleLoadService<Long, TestDomain, String> service = new SimpleLoadService<>(
             new TestLoaderById(true),
             null,
-            createConverter()
+            MultiConvUtils.create()
         );
 
         String result = service.byId(1L);
-        assertThat(result).isEqualTo(SUCCESS_RESULT);
+        assertThat(result).isEqualTo(MultiConvUtils.SUCCESS_RESULT);
     }
 
     @Test
@@ -45,11 +42,11 @@ public class SimpleLoadServiceTest {
         SimpleLoadService<Long, TestDomain, String> service = new SimpleLoadService<>(
             null,
             new TestLoaderAll(false),
-            createConverter()
+            MultiConvUtils.create()
         );
 
         String result = service.all();
-        assertThat(result).isEqualTo(FAIL_RESULT);
+        assertThat(result).isEqualTo(MultiConvUtils.FAIL_RESULT);
     }
 
     @Test
@@ -57,28 +54,11 @@ public class SimpleLoadServiceTest {
         SimpleLoadService<Long, TestDomain, String> service = new SimpleLoadService<>(
             null,
             new TestLoaderAll(true),
-            createConverter()
+            MultiConvUtils.create()
         );
 
         String result = service.all();
-        assertThat(result).isEqualTo(SUCCESS_RESULT);
-    }
-
-    private TestConverter createConverter(){
-        TestConverter converter = Mockito.mock(TestConverter.class);
-        Mockito
-            .when(converter.convertValue(Mockito.anyObject()))
-            .thenReturn(SUCCESS_RESULT);
-        Mockito
-            .when(converter.convertException(Mockito.anyObject()))
-            .thenReturn(FAIL_RESULT);
-        return converter;
-    }
-
-    private static class TestDomain extends AbstractDomain<Long>{
-        public TestDomain(long id) {
-            setId(id);
-        }
+        assertThat(result).isEqualTo(MultiConvUtils.SUCCESS_RESULT);
     }
 
     private static class TestLoaderById implements LoaderById<Long, TestDomain>{
@@ -112,6 +92,4 @@ public class SimpleLoadServiceTest {
             throw new DTOServiceException("");
         }
     }
-
-    private abstract class TestConverter implements MultiConverter<DomainCollection<TestDomain>, String>{}
 }
