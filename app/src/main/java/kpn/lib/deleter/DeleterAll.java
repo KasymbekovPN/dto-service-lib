@@ -1,8 +1,10 @@
 package kpn.lib.deleter;
 
+import kpn.lib.collection.DomainCollection;
+import kpn.lib.domains.Domain;
 import kpn.lib.exceptions.DTOServiceException;
 
 @FunctionalInterface
-public interface DeleterAll {
-    void delete() throws DTOServiceException;
+public interface DeleterAll<I, D extends Domain<I>> {
+    DomainCollection<D> delete() throws DTOServiceException;
 }
