@@ -2,133 +2,116 @@ package kpn.lib.loader;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import kpn.lib.collection.DomainCollection;
+import kpn.lib.collection.ImmutableDomainCollection;
 import kpn.lib.converter.MultiConverter;
+import kpn.lib.domains.AbstractDomain;
 import kpn.lib.exceptions.DTOServiceException;
 
 public class SimpleLoadServiceTest {
     
+    private static final String SUCCESS_RESULT = "success";
+    private static final String FAIL_RESULT = "fail";
+
     @Test
     public void shouldCheckFailLoadingById(){
-        String expectedResult = "wrong 1";
-
-        SimpleLoadService<String, List<String>, Integer, Integer> service = new SimpleLoadService<>(
-            new TestFailLoaderById(),
+        SimpleLoadService<Long, TestDomain, String> service = new SimpleLoadService<>(
+            new TestLoaderById(false),
             null,
-            createConverterById(null, expectedResult),
-            null
+            createConverter()
         );
 
-        String result = service.byId(1);
-        assertThat(expectedResult).isEqualTo(result);
+        String result = service.byId(1L);
+        assertThat(result).isEqualTo(FAIL_RESULT);
     }
 
     @Test
-    public void shouldCheckLoadingById() throws DTOServiceException{
-        String expectedResult = "success 1";
-        Integer id = 1;
-
-        SimpleLoadService<String, List<String>, Integer, Integer> service = new SimpleLoadService<>(
-            createSuccessLoaderById(id),
+    public void shouldCheckLoadingById(){
+        SimpleLoadService<Long, TestDomain, String> service = new SimpleLoadService<>(
+            new TestLoaderById(true),
             null,
-            createConverterById(expectedResult, null),
-            null
+            createConverter()
         );
 
-        String result = service.byId(id);
-        assertThat(expectedResult).isEqualTo(result);
+        String result = service.byId(1L);
+        assertThat(result).isEqualTo(SUCCESS_RESULT);
     }
 
     @Test
     public void shouldCheckFailFullLoading(){
-        List<String> expectedResult = List.of("wrong 1");
-
-        SimpleLoadService<String, List<String>, Integer, Integer> service = new SimpleLoadService<>(
+        SimpleLoadService<Long, TestDomain, String> service = new SimpleLoadService<>(
             null,
-            new TestFailLoaderAll(),
-            null,
-            createConverterAll(null, expectedResult)
+            new TestLoaderAll(false),
+            createConverter()
         );
 
-        List<String> result = service.all();
-        assertThat(expectedResult).isEqualTo(result);
+        String result = service.all();
+        assertThat(result).isEqualTo(FAIL_RESULT);
     }
 
     @Test
     public void shouldCheckFullLoading() throws DTOServiceException{
-        List<String> expectedResult = List.of("success 1");
-
-        SimpleLoadService<String, List<String>, Integer, Integer> service = new SimpleLoadService<>(
+        SimpleLoadService<Long, TestDomain, String> service = new SimpleLoadService<>(
             null,
-            createSuccessLoaderAll(List.of(1)),
-            null,
-            createConverterAll(expectedResult, null)
+            new TestLoaderAll(true),
+            createConverter()
         );
 
-        List<String> result = service.all();
-        assertThat(expectedResult).isEqualTo(result);
+        String result = service.all();
+        assertThat(result).isEqualTo(SUCCESS_RESULT);
     }
 
-    private MultiConverter<Integer, String> createConverterById(String successExpectedResult, String failExpectedResult) {
+    private TestConverter createConverter(){
         TestConverter converter = Mockito.mock(TestConverter.class);
         Mockito
             .when(converter.convertValue(Mockito.anyObject()))
-            .thenReturn(successExpectedResult);
+            .thenReturn(SUCCESS_RESULT);
         Mockito
             .when(converter.convertException(Mockito.anyObject()))
-            .thenReturn(failExpectedResult);
+            .thenReturn(FAIL_RESULT);
         return converter;
     }
 
-    private LoaderById<Integer, Integer> createSuccessLoaderById(Integer id) throws DTOServiceException {
-        TestLoaderById loader = Mockito.mock(TestLoaderById.class);
-        Mockito
-            .when(loader.load(id))
-            .thenReturn(id);
-        return loader;
+    private static class TestDomain extends AbstractDomain<Long>{
+        public TestDomain(long id) {
+            setId(id);
+        }
     }
 
-    private MultiConverter<List<Integer>, List<String>> createConverterAll(List<String> successExpectedResult, List<String> failExpectedResult) {
-        TestListConverter converter = Mockito.mock(TestListConverter.class);
-        Mockito
-            .when(converter.convertValue(Mockito.anyObject()))
-            .thenReturn(successExpectedResult);
-        Mockito
-            .when(converter.convertException(Mockito.anyObject()))
-            .thenReturn(failExpectedResult);
-        return converter;
-    }
+    private static class TestLoaderById implements LoaderById<Long, TestDomain>{
+        private final boolean success;
 
-    private LoaderAll<Integer> createSuccessLoaderAll(List<Integer> expectedResult) throws DTOServiceException {
-        TestLoaderAll loader = Mockito.mock(TestLoaderAll.class);
-        Mockito
-            .when(loader.load())
-            .thenReturn(expectedResult);
-        return loader;
-    }
+        public TestLoaderById(boolean success) {
+            this.success = success;
+        }
 
-    private class TestFailLoaderById implements LoaderById<Integer, Integer>{
         @Override
-        public Integer load(Integer id) throws DTOServiceException {
+        public DomainCollection<TestDomain> load(Long id) throws DTOServiceException {
+            if (success){
+                return new ImmutableDomainCollection<TestDomain>(new TestDomain(id));
+            }
             throw new DTOServiceException("");
         }
     }
 
-    private class TestFailLoaderAll implements LoaderAll<Integer>{
+    private static class TestLoaderAll implements LoaderAll<Long, TestDomain>{
+        private final boolean success;
 
-        @Override
-        public List<Integer> load() throws DTOServiceException {
-            throw new DTOServiceException("");
+        public TestLoaderAll(boolean success) {
+            this.success = success;
         }
 
+        @Override
+        public DomainCollection<TestDomain> load() throws DTOServiceException {
+            if (success){
+                return new ImmutableDomainCollection<TestDomain>(new TestDomain(0L));
+            }
+            throw new DTOServiceException("");
+        }
     }
 
-    private abstract class TestLoaderById implements LoaderById<Integer, Integer>{}
-    private abstract class TestLoaderAll implements LoaderAll<Integer>{}
-    private abstract class TestConverter implements MultiConverter<Integer, String> {}
-    private abstract class TestListConverter implements MultiConverter<List<Integer>, List<String>> {}
+    private abstract class TestConverter implements MultiConverter<DomainCollection<TestDomain>, String>{}
 }

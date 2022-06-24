@@ -1,6 +1,6 @@
 package kpn.lib.loader;
 
-public interface LoadService<R, L, I> {
+public interface LoadService<I, R> {
     R byId(I id);
-    L all();
+    R all();
 }

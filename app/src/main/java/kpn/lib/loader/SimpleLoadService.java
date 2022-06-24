@@ -1,43 +1,41 @@
 package kpn.lib.loader;
 
-import java.util.List;
-
+import kpn.lib.collection.DomainCollection;
 import kpn.lib.converter.MultiConverter;
+import kpn.lib.domains.Domain;
 import kpn.lib.exceptions.DTOServiceException;
 
-public class SimpleLoadService<R, L, I, E> implements LoadService<R, L, I> {
-    private final LoaderById<E, I> loaderById;
-    private final LoaderAll<E> loaderAll;
-    private final MultiConverter<E, R> converterById;
-    private final MultiConverter<List<E>, L> converterAll;
+public class SimpleLoadService<I, D extends Domain<I>, R> implements LoadService<I, R> {
 
-    public SimpleLoadService(LoaderById<E, I> loaderById, 
-                             LoaderAll<E> loaderAll,
-                             MultiConverter<E, R> converterById,
-                             MultiConverter<List<E>, L> converterAll) {
+    private final LoaderById<I, D> loaderById;
+    private final LoaderAll<I, D> loaderAll;
+    private final MultiConverter<DomainCollection<D>, R> converter;
+
+    public SimpleLoadService(LoaderById<I, D> loaderById,
+                             LoaderAll<I, D> loaderAll,
+                             MultiConverter<DomainCollection<D>, R> converter) {
         this.loaderById = loaderById;
         this.loaderAll = loaderAll;
-        this.converterById = converterById;
-        this.converterAll = converterAll;
+        this.converter = converter;
     }
 
     @Override
     public R byId(I id) {
         try{
-            E loaded = loaderById.load(id);
-            return converterById.convertValue(loaded);
-        } catch(DTOServiceException ex){
-            return converterById.convertException(ex);
+            DomainCollection<D> collection = loaderById.load(id);
+            return converter.convertValue(collection);
+        } catch (DTOServiceException e){
+            return converter.convertException(e);
         }
     }
 
     @Override
-    public L all() {
-        try{
-            List<E> loaded = loaderAll.load();
-            return converterAll.convertValue(loaded);
-        } catch(DTOServiceException ex){
-            return converterAll.convertException(ex);
+    public R all() {
+        try {
+            DomainCollection<D> collection = loaderAll.load();
+            return converter.convertValue(collection);
+        } catch (DTOServiceException e) {
+            return converter.convertException(e);
         }
     }
 }
