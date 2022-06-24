@@ -1,7 +1,5 @@
 package kpn.lib.predicate;
 
-import java.util.List;
-
 import kpn.lib.collection.DomainCollection;
 import kpn.lib.domains.Domain;
 import kpn.lib.exceptions.DTOServiceException;
