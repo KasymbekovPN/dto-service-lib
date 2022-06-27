@@ -4,33 +4,41 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-import kpn.lib.collection.DomainCollection;
-import kpn.lib.collection.ImmutableDomainCollection;
+import kpn.lib.collection.Collection;
+import kpn.lib.collection.ImmutableCollection;
 import kpn.lib.exceptions.DTOServiceException;
+import kpn.utils.EDConvUtils;
 import kpn.utils.MultiConvUtils;
 import kpn.utils.TestDomain;
+import kpn.utils.TestEntity;
 
-public class SimpleSaverServiceTest {
+class SimpleSaverServiceTest {
 
     @Test
-    public void shouldCheckFailSaving(){
-        SimpleSaveService<Long, TestDomain, String> service 
-            = new SimpleSaveService<>(new TestSaver(false), MultiConvUtils.create());
+    void shouldCheckFailSaving(){
+        SimpleSaveService<Long, TestDomain, TestEntity, String> service = new SimpleSaveService<>(
+            new TestSaver(false),
+            EDConvUtils.create(),
+            MultiConvUtils.create()
+        );
 
         String result = service.save(new TestDomain(0L));
         assertThat(result).isEqualTo(MultiConvUtils.FAIL_RESULT);
     }
 
     @Test
-    public void shouldCheckSuccessSaving(){
-        SimpleSaveService<Long, TestDomain, String> service 
-            = new SimpleSaveService<>(new TestSaver(true), MultiConvUtils.create());
+    void shouldCheckSuccessSaving(){
+        SimpleSaveService<Long, TestDomain, TestEntity, String> service = new SimpleSaveService<>(
+            new TestSaver(true),
+            EDConvUtils.create(),
+            MultiConvUtils.create()
+        );
 
         String result = service.save(new TestDomain(0L));
         assertThat(result).isEqualTo(MultiConvUtils.SUCCESS_RESULT);
     }
 
-    private static class TestSaver implements Saver<Long, TestDomain>{
+    private static class TestSaver implements Saver<Long, TestEntity>{
         private final boolean success;
 
         public TestSaver(boolean success) {
@@ -38,9 +46,9 @@ public class SimpleSaverServiceTest {
         }
 
         @Override
-        public DomainCollection<TestDomain> save(TestDomain domain) throws DTOServiceException {
+        public Collection<TestEntity> save(TestEntity entity) throws DTOServiceException {
             if (success){
-                return new ImmutableDomainCollection<>(new TestDomain(0L));
+                return new ImmutableCollection<TestEntity>(new TestEntity(0L));
             }
             throw new DTOServiceException("");
         }

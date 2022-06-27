@@ -1,40 +1,51 @@
 package kpn.lib.deleter;
 
-import kpn.lib.collection.DomainCollection;
+import kpn.lib.collection.Collection;
+import kpn.lib.converter.EDConverter;
 import kpn.lib.converter.MultiConverter;
 import kpn.lib.domains.Domain;
+import kpn.lib.entities.Entity;
 import kpn.lib.exceptions.DTOServiceException;
 
-public class SimpleDeleteService<I, D extends Domain<I>, R> implements DeleteService<I, R>{
-    private final DeleterById<I, D> deleterById;
-    private final DeleterAll<I, D> deleterAll;
-    private final MultiConverter<DomainCollection<D>, R> converter;
+public class SimpleDeleteService<I, E extends Entity<I>, D extends Domain<I>, R> implements DeleteService<I, R>{
+    private final DeleterById<I, E> deleterById;
+    private final DeleterAll<I, E> deleterAll;
+    private final EDConverter<I, D, E> edConverter;
+    private final MultiConverter<Collection<D>, R> toResultConverter;
 
-    public SimpleDeleteService(DeleterById<I, D> deleterById,
-                               DeleterAll<I, D> deleterAll,
-                               MultiConverter<DomainCollection<D>, R> converter) {
+    public SimpleDeleteService(DeleterById<I, E> deleterById,
+                               DeleterAll<I, E> deleterAll,
+                               EDConverter<I, D, E> edConverter,
+                               MultiConverter<Collection<D>, R> toResultConverter) {
         this.deleterById = deleterById;
         this.deleterAll = deleterAll;
-        this.converter = converter;
+        this.edConverter = edConverter;
+        this.toResultConverter = toResultConverter;
     }
 
     @Override
     public R byId(I id) {
         try {
-            DomainCollection<D> collection = deleterById.delete(id);
-            return converter.convertValue(collection);
+            return toResultConverter.convertValue(
+                edConverter.toDomains(
+                    deleterById.delete(id)        
+                )
+            );
         } catch (DTOServiceException e) {
-            return converter.convertException(e);
+            return toResultConverter.convertException(e);
         }
     }
 
     @Override
     public R all() {
         try {
-            DomainCollection<D> collection = deleterAll.delete();
-            return converter.convertValue(collection);
+            return toResultConverter.convertValue(
+                edConverter.toDomains(
+                    deleterAll.delete()       
+                )
+            );
         } catch (DTOServiceException e) {
-            return converter.convertException(e);
+            return toResultConverter.convertException(e);
         }
     }
 }

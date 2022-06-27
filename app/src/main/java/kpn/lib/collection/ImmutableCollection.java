@@ -3,30 +3,28 @@ package kpn.lib.collection;
 import java.util.Iterator;
 import java.util.List;
 
-import kpn.lib.domains.Domain;
+public class ImmutableCollection<T> implements Collection<T> {
+    private final List<T> content;
 
-public class ImmutableDomainCollection<D extends Domain<?>> implements DomainCollection<D> {
-    private final List<D> content;
-
-    public ImmutableDomainCollection(List<D> content) {
+    public ImmutableCollection(List<T> content) {
         this.content = content;
     }
 
-    public ImmutableDomainCollection(D item){
+    public ImmutableCollection(T item){
         this.content = List.of(item);
     }
 
-    public ImmutableDomainCollection(){
+    public ImmutableCollection(){
         this.content = List.of();
     }
 
     @Override
-    public D getFirst() {
+    public T getFirst() {
         return content.isEmpty() ? null : content.get(0);
     }
 
     @Override
-    public Iterator<D> iterator() {
+    public Iterator<T> iterator() {
         return content.iterator();
     }
 
@@ -46,7 +44,7 @@ public class ImmutableDomainCollection<D extends Domain<?>> implements DomainCol
             return false;
         if (getClass() != obj.getClass())
             return false;
-        ImmutableDomainCollection<D> other = (ImmutableDomainCollection<D>) obj;
+        ImmutableCollection<T> other = (ImmutableCollection<T>) obj;
         if (content == null) {
             if (other.content != null)
                 return false;

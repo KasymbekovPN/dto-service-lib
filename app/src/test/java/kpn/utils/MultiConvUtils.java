@@ -2,7 +2,7 @@ package kpn.utils;
 
 import org.mockito.Mockito;
 
-import kpn.lib.collection.DomainCollection;
+import kpn.lib.collection.Collection;
 import kpn.lib.converter.MultiConverter;
 
 public class MultiConvUtils {
@@ -10,7 +10,7 @@ public class MultiConvUtils {
     public static final String SUCCESS_RESULT = "success";
     public static final String FAIL_RESULT = "fail";
 
-    public static MultiConverter<DomainCollection<TestDomain>, String> create(){
+    public static MultiConverter<Collection<TestDomain>, String> create(){
         TestConverter converter = Mockito.mock(TestConverter.class);
         Mockito
             .when(converter.convertValue(Mockito.anyObject()))
@@ -21,5 +21,5 @@ public class MultiConvUtils {
         return converter;
     }
 
-    public abstract class TestConverter implements MultiConverter<DomainCollection<TestDomain>, String>{}
+    public abstract class TestConverter implements MultiConverter<Collection<TestDomain>, String>{}
 }

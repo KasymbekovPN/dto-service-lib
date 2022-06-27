@@ -8,7 +8,7 @@ import java.util.function.Function;
 
 import org.junit.jupiter.api.Test;
 
-public class AbstractDomainTest {
+class AbstractDomainTest {
     
     private static final String DEFAULT_GETTING_RESULT = "-";
     private static final String KEY__NOT_ID = "notId";
@@ -17,26 +17,26 @@ public class AbstractDomainTest {
     private static final long ID_AS_LONG = 123L;
 
     @Test
-    public void shouldCheckDefaultGetting(){
+    void shouldCheckDefaultGetting(){
         assertThat(new TestDomain().getId()).isNull();
     }
 
     @Test
-    public void shouldCheckSettingGetting(){
+    void shouldCheckSettingGetting(){
         TestDomain domain = createDomain(ID_AS_LONG);
 
         assertThat(domain.getId()).isEqualTo(ID_AS_LONG);
     }
 
     @Test
-    public void shouldCheckFailInDeepGetting_byQueue_whenQueueIsEmpty(){
+    void shouldCheckFailInDeepGetting_byQueue_whenQueueIsEmpty(){
         String result = new TestDomain().getInDeep(new ArrayDeque<>());
 
         assertThat(result).isEqualTo(DEFAULT_GETTING_RESULT);
     }
 
     @Test
-    public void shouldCheckFailInDeepGetting_byQueue_whenGetterIsAbsent(){
+    void shouldCheckFailInDeepGetting_byQueue_whenGetterIsAbsent(){
         ArrayDeque<String> queue = new ArrayDeque<>();
         queue.addFirst(KEY__NOT_ID);
         String result = new TestDomain().getInDeep(queue);
@@ -45,7 +45,7 @@ public class AbstractDomainTest {
     }
 
     @Test
-    public void shouldCheckInDeepGetting_byQueue(){
+    void shouldCheckInDeepGetting_byQueue(){
         ArrayDeque<String> queue = new ArrayDeque<>();
         queue.addFirst(KEY__ID);
         String result = createDomain(ID_AS_LONG).getInDeep(queue);
@@ -54,29 +54,29 @@ public class AbstractDomainTest {
     }
 
     @Test
-    public void shouldCheckInDeepGetting_byArgs(){
+    void shouldCheckInDeepGetting_byArgs(){
         String result = createDomain(ID_AS_LONG).getInDeep(KEY__ID);
 
         assertThat(result).isEqualTo(ID_AS_STRING);
     }
 
     @Test
-    public void shouldCheckEqualily(){
+    void shouldCheckEqualily(){
         assertThat(createDomain(ID_AS_LONG)).isEqualTo(createDomain(ID_AS_LONG));
     }
 
     @Test
-    public void shouldCheckInequality(){
+    void shouldCheckInequality(){
         assertThat(createDomain(ID_AS_LONG)).isNotEqualTo(createDomain(ID_AS_LONG + 1));
     }
 
     @Test
-    public void shouldCheckHashCodes_equlityObjects(){
+    void shouldCheckHashCodes_equlityObjects(){
         assertThat(createDomain(ID_AS_LONG)).hasSameHashCodeAs(createDomain(ID_AS_LONG));
     }
 
     @Test
-    public void shouldCheckHashCodes_inequlityObjects(){
+    void shouldCheckHashCodes_inequlityObjects(){
         assertThat(createDomain(ID_AS_LONG).hashCode()).isNotEqualTo(createDomain(ID_AS_LONG + 1).hashCode());
     }
 

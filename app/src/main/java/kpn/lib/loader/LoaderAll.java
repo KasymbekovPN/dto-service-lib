@@ -1,10 +1,10 @@
 package kpn.lib.loader;
 
-import kpn.lib.collection.DomainCollection;
-import kpn.lib.domains.Domain;
+import kpn.lib.collection.Collection;
+import kpn.lib.entities.Entity;
 import kpn.lib.exceptions.DTOServiceException;
 
 @FunctionalInterface
-public interface LoaderAll<I, D extends Domain<I>> {
-    DomainCollection<D> load() throws DTOServiceException;
+public interface LoaderAll<I, E extends Entity<I>> {
+    Collection<E> load() throws DTOServiceException;
 }

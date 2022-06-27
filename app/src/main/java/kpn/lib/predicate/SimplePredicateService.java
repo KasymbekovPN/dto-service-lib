@@ -1,27 +1,35 @@
 package kpn.lib.predicate;
 
-import kpn.lib.collection.DomainCollection;
+import kpn.lib.collection.Collection;
+import kpn.lib.converter.EDConverter;
 import kpn.lib.converter.MultiConverter;
 import kpn.lib.domains.Domain;
+import kpn.lib.entities.Entity;
 import kpn.lib.exceptions.DTOServiceException;
 
-public class SimplePredicateService<I, D extends Domain<I>, P, R> implements PredicateService<P, R> {
-    private final PredicateExecutor<P, I, D> executor;
-    private final MultiConverter<DomainCollection<D>, R> converter;
+public class SimplePredicateService<I, E extends Entity<I>, D extends Domain<I>, P, R> implements PredicateService<P, R> {
+    private final PredicateExecutor<P, I, E> executor;
+    private final EDConverter<I, D, E> edConverter;
+    private final MultiConverter<Collection<D>, R> toResultConverter;
 
-    public SimplePredicateService(PredicateExecutor<P, I, D> executor,
-                                  MultiConverter<DomainCollection<D>, R> converter) {
+    public SimplePredicateService(PredicateExecutor<P, I, E> executor,
+                                  EDConverter<I, D, E> edConverter,
+                                  MultiConverter<Collection<D>, R> toResultConverter) {
         this.executor = executor;
-        this.converter = converter;
+        this.edConverter = edConverter;
+        this.toResultConverter = toResultConverter;
     }
 
     @Override
     public R execute(P predicate) {
         try {
-            DomainCollection<D> collection = executor.execute(predicate);
-            return converter.convertValue(collection);
+            return toResultConverter.convertValue(
+                edConverter.toDomains(
+                    executor.execute(predicate)
+                )
+            );
         } catch (DTOServiceException e) {
-            return converter.convertException(e);
+            return toResultConverter.convertException(e);
         }
     }
 }

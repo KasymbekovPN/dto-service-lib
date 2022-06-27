@@ -4,20 +4,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-import kpn.lib.collection.DomainCollection;
-import kpn.lib.collection.ImmutableDomainCollection;
+import kpn.lib.collection.Collection;
+import kpn.lib.collection.ImmutableCollection;
 import kpn.lib.exceptions.DTOServiceException;
+import kpn.utils.EDConvUtils;
 import kpn.utils.MultiConvUtils;
 import kpn.utils.TestDomain;
+import kpn.utils.TestEntity;
 
-public class SimpleLoadServiceTest {
-
+class SimpleLoadServiceTest {
 
     @Test
-    public void shouldCheckFailLoadingById(){
-        SimpleLoadService<Long, TestDomain, String> service = new SimpleLoadService<>(
+    void shouldCheckFailLoadingById(){
+        SimpleLoadService<Long, TestEntity, TestDomain, String> service = new SimpleLoadService<>(
             new TestLoaderById(false),
             null,
+            EDConvUtils.create(),
             MultiConvUtils.create()
         );
 
@@ -26,10 +28,11 @@ public class SimpleLoadServiceTest {
     }
 
     @Test
-    public void shouldCheckLoadingById(){
-        SimpleLoadService<Long, TestDomain, String> service = new SimpleLoadService<>(
+    void shouldCheckLoadingById(){
+        SimpleLoadService<Long, TestEntity, TestDomain, String> service = new SimpleLoadService<>(
             new TestLoaderById(true),
             null,
+            EDConvUtils.create(),
             MultiConvUtils.create()
         );
 
@@ -38,10 +41,11 @@ public class SimpleLoadServiceTest {
     }
 
     @Test
-    public void shouldCheckFailFullLoading(){
-        SimpleLoadService<Long, TestDomain, String> service = new SimpleLoadService<>(
+    void shouldCheckFailFullLoading(){
+        SimpleLoadService<Long, TestEntity, TestDomain, String> service = new SimpleLoadService<>(
             null,
             new TestLoaderAll(false),
+            EDConvUtils.create(),
             MultiConvUtils.create()
         );
 
@@ -50,10 +54,11 @@ public class SimpleLoadServiceTest {
     }
 
     @Test
-    public void shouldCheckFullLoading() throws DTOServiceException{
-        SimpleLoadService<Long, TestDomain, String> service = new SimpleLoadService<>(
+    void shouldCheckFullLoading() throws DTOServiceException{
+        SimpleLoadService<Long, TestEntity, TestDomain, String> service = new SimpleLoadService<>(
             null,
             new TestLoaderAll(true),
+            EDConvUtils.create(),
             MultiConvUtils.create()
         );
 
@@ -61,7 +66,7 @@ public class SimpleLoadServiceTest {
         assertThat(result).isEqualTo(MultiConvUtils.SUCCESS_RESULT);
     }
 
-    private static class TestLoaderById implements LoaderById<Long, TestDomain>{
+    private static class TestLoaderById implements LoaderById<Long, TestEntity>{
         private final boolean success;
 
         public TestLoaderById(boolean success) {
@@ -69,15 +74,15 @@ public class SimpleLoadServiceTest {
         }
 
         @Override
-        public DomainCollection<TestDomain> load(Long id) throws DTOServiceException {
+        public Collection<TestEntity> load(Long id) throws DTOServiceException {
             if (success){
-                return new ImmutableDomainCollection<TestDomain>(new TestDomain(id));
+                return new ImmutableCollection<TestEntity>(new TestEntity(id));
             }
             throw new DTOServiceException("");
         }
     }
 
-    private static class TestLoaderAll implements LoaderAll<Long, TestDomain>{
+    private static class TestLoaderAll implements LoaderAll<Long, TestEntity>{
         private final boolean success;
 
         public TestLoaderAll(boolean success) {
@@ -85,9 +90,9 @@ public class SimpleLoadServiceTest {
         }
 
         @Override
-        public DomainCollection<TestDomain> load() throws DTOServiceException {
+        public Collection<TestEntity> load() throws DTOServiceException {
             if (success){
-                return new ImmutableDomainCollection<TestDomain>(new TestDomain(0L));
+                return new ImmutableCollection<TestEntity>(new TestEntity(0L));
             }
             throw new DTOServiceException("");
         }

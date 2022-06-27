@@ -12,28 +12,28 @@ import org.junit.jupiter.api.Test;
 
 import kpn.lib.domains.AbstractDomain;
 
-public class ImmutableDomainCollectionTest {
+class ImmutableCollectionTest {
 
     private static final long ID = 1L;
     
     @Test
-    public void shouldCheckGetFirst_whenItemAbsent(){
-        assertThat(new ImmutableDomainCollection<TestDomain>().getFirst()).isNull();
+    void shouldCheckGetFirst_whenItemAbsent(){
+        assertThat(new ImmutableCollection<TestDomain>().getFirst()).isNull();
     }
 
     @Test
-    public void shouldCheckGetFirst(){
+    void shouldCheckGetFirst(){
         assertThat(createCollection(ID).getFirst()).isEqualTo(creteDomain(ID));
     }
 
     @Test
-    public void shouldCheckIterator_whenItemsAbsent(){
-        Iterator<TestDomain> iterator = new ImmutableDomainCollection<TestDomain>().iterator();
+    void shouldCheckIterator_whenItemsAbsent(){
+        Iterator<TestDomain> iterator = new ImmutableCollection<TestDomain>().iterator();
         assertThat(iterator.hasNext()).isFalse();
     }
 
     @Test
-    public void shouldCheckIterator(){
+    void shouldCheckIterator(){
         Long[] ids = new Long[]{ID, ID + 1, ID + 2};
         List<TestDomain> expectedDomains = createDomains(ids);
 
@@ -44,8 +44,8 @@ public class ImmutableDomainCollectionTest {
         assertThat(domains).isEqualTo(expectedDomains);
     }
 
-    private ImmutableDomainCollection<TestDomain> createCollection(Long... ids){
-        return new ImmutableDomainCollection<>(createDomains(ids));
+    private ImmutableCollection<TestDomain> createCollection(Long... ids){
+        return new ImmutableCollection<>(createDomains(ids));
     }
 
     private List<TestDomain> createDomains(Long... ids){
