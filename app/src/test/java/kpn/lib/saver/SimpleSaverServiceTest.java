@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import kpn.lib.collection.Collection;
 import kpn.lib.collection.ImmutableCollection;
 import kpn.lib.exceptions.DTOServiceException;
+import kpn.lib.services.saving.executor.SavingExecutor;
+import kpn.lib.services.saving.service.SimpleSaveService;
 import kpn.utils.EDConvUtils;
 import kpn.utils.MultiConvUtils;
 import kpn.utils.TestDomain;
@@ -38,7 +40,7 @@ class SimpleSaverServiceTest {
         assertThat(result).isEqualTo(MultiConvUtils.SUCCESS_RESULT);
     }
 
-    private static class TestSaver implements Saver<Long, TestEntity>{
+    private static class TestSaver implements SavingExecutor<Long, TestEntity>{
         private final boolean success;
 
         public TestSaver(boolean success) {

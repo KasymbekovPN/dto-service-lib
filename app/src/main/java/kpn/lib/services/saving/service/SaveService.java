@@ -1,4 +1,4 @@
-package kpn.lib.saver;
+package kpn.lib.services.saving.service;
 
 import kpn.lib.domains.Domain;
 

@@ -1,4 +1,4 @@
-package kpn.lib.saver;
+package kpn.lib.services.saving.service;
 
 import kpn.lib.collection.Collection;
 import kpn.lib.converter.EDConverter;
@@ -6,13 +6,14 @@ import kpn.lib.converter.MultiConverter;
 import kpn.lib.domains.Domain;
 import kpn.lib.entities.Entity;
 import kpn.lib.exceptions.DTOServiceException;
+import kpn.lib.services.saving.executor.SavingExecutor;
 
 public class SimpleSaveService<I, D extends Domain<I>, E extends Entity<I>, R> implements SaveService<I, D, R> {
-    private final Saver<I, E> saver;
+    private final SavingExecutor<I, E> saver;
     private final EDConverter<I, D, E> edConverter;
     private final MultiConverter<Collection<D>, R> toResultConverter;
 
-    public SimpleSaveService(Saver<I, E> saver,
+    public SimpleSaveService(SavingExecutor<I, E> saver,
                              EDConverter<I, D, E> edConverter,
                              MultiConverter<Collection<D>, R> toResultConverter) {
         this.saver = saver;
