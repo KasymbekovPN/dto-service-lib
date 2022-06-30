@@ -66,7 +66,7 @@ class SimpleLoadServiceTest {
         assertThat(result).isEqualTo(MultiConvUtils.SUCCESS_RESULT);
     }
 
-    private static class TestLoaderById implements LoaderById<Long, TestEntity>{
+    private static class TestLoaderById implements LoaderByIdOld<Long, TestEntity>{
         private final boolean success;
 
         public TestLoaderById(boolean success) {
@@ -82,7 +82,7 @@ class SimpleLoadServiceTest {
         }
     }
 
-    private static class TestLoaderAll implements LoaderAll<Long, TestEntity>{
+    private static class TestLoaderAll implements LoaderAllOld<Long, TestEntity>{
         private final boolean success;
 
         public TestLoaderAll(boolean success) {

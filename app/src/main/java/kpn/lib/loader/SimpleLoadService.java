@@ -8,13 +8,13 @@ import kpn.lib.entities.Entity;
 import kpn.lib.exceptions.DTOServiceException;
 
 public class SimpleLoadService<I, E extends Entity<I>, D extends Domain<I>, R> implements LoadService<I, R> {
-    private final LoaderById<I, E> loaderById;
-    private final LoaderAll<I, E> loaderAll;
+    private final LoaderByIdOld<I, E> loaderById;
+    private final LoaderAllOld<I, E> loaderAll;
     private final EDConverter<I, D, E> edConverter;
     private final MultiConverter<Collection<D>, R> toResultConverter;
 
-    public SimpleLoadService(LoaderById<I, E> loaderById,
-                             LoaderAll<I, E> loaderAll,
+    public SimpleLoadService(LoaderByIdOld<I, E> loaderById,
+                             LoaderAllOld<I, E> loaderAll,
                              EDConverter<I, D, E> edConverter,
                              MultiConverter<Collection<D>, R> toResultConverter) {
         this.loaderById = loaderById;
