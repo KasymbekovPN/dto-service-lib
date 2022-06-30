@@ -7,6 +7,6 @@ public final class DefaultDeletingAllExecutor<D> implements DeletingAllExecutor<
 
     @Override
     public Collection<D> delete() throws DTOServiceException {
-        throw new DTOServiceException("executor.deletinh.method.delete.unsupported");
+        throw new DTOServiceException("executor.deletingAll.method.delete.unsupported");
     }
 }
