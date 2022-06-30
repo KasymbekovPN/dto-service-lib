@@ -1,4 +1,4 @@
-package kpn.lib.services.saving.executor;
+package kpn.lib.services.parts.saving.executor;
 
 import kpn.lib.collection.Collection;
 import kpn.lib.exceptions.DTOServiceException;

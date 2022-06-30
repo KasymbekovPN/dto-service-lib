@@ -6,9 +6,9 @@ import kpn.lib.deleter.DeleteService;
 import kpn.lib.domains.Domain;
 import kpn.lib.loader.LoadService;
 import kpn.lib.predicate.PredicateService;
+import kpn.lib.services.parts.saving.service.SavingService;
 import kpn.lib.services.result.ImmutableServiceResult;
 import kpn.lib.services.result.ServiceResult;
-import kpn.lib.services.saving.service.SavingService;
 
 public class DTOServicesImpl<I, D, P, R> implements DTOServices<I, D, P, R> {
     private final SavingService<D, ServiceResult<D>> saver;

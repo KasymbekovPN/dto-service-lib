@@ -4,7 +4,7 @@ import kpn.lib.deleter.DeleteService;
 import kpn.lib.domains.Domain;
 import kpn.lib.loader.LoadService;
 import kpn.lib.predicate.PredicateService;
-import kpn.lib.services.saving.service.SavingService;
+import kpn.lib.services.parts.saving.service.SavingService;
 
 public interface DTOServices<I, D, P, R> {
     SavingService<D, R> saver(D domain);
