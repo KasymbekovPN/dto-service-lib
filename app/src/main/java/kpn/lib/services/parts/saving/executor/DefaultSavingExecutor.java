@@ -7,6 +7,6 @@ public final class DefaultSavingExecutor<D> implements SavingExecutor<D>{
 
     @Override
     public Collection<D> save(D domain) throws DTOServiceException {
-        throw new DTOServiceException("executor.save.unsupported");
+        throw new DTOServiceException("executor.saving.method.save.unsupported");
     }
 }

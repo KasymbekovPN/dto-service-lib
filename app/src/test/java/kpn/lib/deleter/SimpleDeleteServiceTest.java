@@ -66,7 +66,7 @@ class SimpleDeleteServiceTest {
         assertThat(result).isEqualTo(MultiConvUtils.SUCCESS_RESULT);
     }
 
-    private static class TestDeleterById implements DeleterById<Long, TestEntity>{
+    private static class TestDeleterById implements DeleterByIdOld<Long, TestEntity>{
         private final boolean success;
 
         public TestDeleterById(boolean success) {
@@ -82,7 +82,7 @@ class SimpleDeleteServiceTest {
         }
     }
 
-    private static class TestDeleterAll implements DeleterAll<Long, TestEntity>{
+    private static class TestDeleterAll implements DeleterAllOld<Long, TestEntity>{
         private final boolean success;
 
         public TestDeleterAll(boolean success) {
