@@ -4,11 +4,15 @@ import kpn.lib.deleter.DeleteService;
 import kpn.lib.domains.Domain;
 import kpn.lib.loader.LoadService;
 import kpn.lib.predicate.PredicateService;
-import kpn.lib.services.saving.service.SaveService;
+import kpn.lib.services.saving.service.SavingService;
 
-public interface DTOServices<I, D extends Domain<I>, P, R> {
-    SaveService<I, D, R> saver();
-    LoadService<I, R> loader();
-    DeleteService<I, R> deleter();
-    PredicateService<P, R> executor();
+public interface DTOServices<I, D, P, R> {
+    SavingService<D, R> saver(D domain);
+
+
+    // TODO: !!!
+    // SaveService<I, D, R> saver();
+    // LoadService<I, R> loader();
+    // DeleteService<I, R> deleter();
+    // PredicateService<P, R> executor();
 }
