@@ -1,4 +1,4 @@
-package kpn.lib.saver;
+package kpn.lib.services.parts.saving.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -8,7 +8,6 @@ import kpn.lib.collection.Collection;
 import kpn.lib.collection.ImmutableCollection;
 import kpn.lib.exceptions.DTOServiceException;
 import kpn.lib.services.parts.saving.executor.SavingExecutor;
-import kpn.lib.services.parts.saving.service.SimpleSavingService;
 import kpn.lib.services.result.ImmutableServiceResult;
 import kpn.lib.services.result.ServiceResult;
 import kpn.utils.TestDomain;
