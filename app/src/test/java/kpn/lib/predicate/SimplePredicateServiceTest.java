@@ -12,11 +12,12 @@ import kpn.utils.MultiConvUtils;
 import kpn.utils.TestDomain;
 import kpn.utils.TestEntity;
 
+// TODO: del
 class SimplePredicateServiceTest {
 
     @Test
     void shouldCheckFailExecution(){
-        SimplePredicateService<Long, TestEntity, TestDomain, Integer, String> service = new SimplePredicateService<>(
+        SimplePredicateServiceOld<Long, TestEntity, TestDomain, Integer, String> service = new SimplePredicateServiceOld<>(
             new TestPredicateExecutor(false),
             EDConvUtils.create(),
             MultiConvUtils.create()
@@ -28,7 +29,7 @@ class SimplePredicateServiceTest {
 
     @Test
     void shouldCheckExecution(){
-        SimplePredicateService<Long, TestEntity, TestDomain, Integer, String> service = new SimplePredicateService<>(
+        SimplePredicateServiceOld<Long, TestEntity, TestDomain, Integer, String> service = new SimplePredicateServiceOld<>(
             new TestPredicateExecutor(true),
             EDConvUtils.create(),
             MultiConvUtils.create()

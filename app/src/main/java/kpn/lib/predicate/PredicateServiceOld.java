@@ -1,5 +1,6 @@
 package kpn.lib.predicate;
 
-public interface PredicateService<P, R> {
+// TODO: del
+public interface PredicateServiceOld<P, R> {
     R execute(P predicate);
 }
