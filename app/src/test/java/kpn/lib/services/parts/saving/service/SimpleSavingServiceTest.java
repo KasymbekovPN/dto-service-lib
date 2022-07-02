@@ -3,8 +3,8 @@ package kpn.lib.services.parts.saving.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
-import kpn.lib.collection.Collection;
 import kpn.lib.collection.ImmutableCollection;
 import kpn.lib.exceptions.DTOServiceException;
 import kpn.lib.services.parts.saving.executor.SavingExecutor;
@@ -14,36 +14,29 @@ import kpn.utils.TestDomain;
 
 class SimpleSavingServiceTest {
     private static final Long ID = 1L;
-    private static final String CODE = "code";
 
     @Test
     void shouldCheckFailSaving(){
-        ServiceResult<TestDomain> result = new SimpleSavingService<>(new TestSaver(false)).save(new TestDomain(ID));
+        ServiceResult<TestDomain> result = new SimpleSavingService<TestDomain>(null).save(new TestDomain(ID));
 
-        assertThat(result).isEqualTo(new ImmutableServiceResult<>(CODE));
+        assertThat(result).isEqualTo(new ImmutableServiceResult<>("executor.saving.method.save.unsupported"));
     }
 
     @Test
-    void shouldCheckSuccessSaving(){
-        ServiceResult<TestDomain> result = new SimpleSavingService<>(new TestSaver(true)).save(new TestDomain(ID));
+    void shouldCheckSuccessSaving() throws DTOServiceException{
+        TestDomain domain = new TestDomain(ID);
+        ServiceResult<TestDomain> result = new SimpleSavingService<>(createExecutor(domain)).save(domain);
 
-        assertThat(result).isEqualTo(new ImmutableServiceResult<>(new ImmutableCollection<>(new TestDomain(ID))));
+        assertThat(result).isEqualTo(new ImmutableServiceResult<>(new ImmutableCollection<>(domain)));
     }
 
-    // TODO: use mockito proxy
-    private static class TestSaver implements SavingExecutor<TestDomain>{
-        private final boolean success;
-
-        public TestSaver(boolean success) {
-            this.success = success;
-        }
-
-        @Override
-        public Collection<TestDomain> save(TestDomain domain) throws DTOServiceException {
-            if (success){
-                return new ImmutableCollection<TestDomain>(domain);
-            }
-            throw new DTOServiceException(CODE);
-        }
+    private TestSavingExecutor createExecutor(TestDomain domain) throws DTOServiceException{
+        TestSavingExecutor executor = Mockito.mock(TestSavingExecutor.class);
+        Mockito
+            .when(executor.save(domain))
+            .thenReturn(new ImmutableCollection<>(domain));
+        return executor;
     }
+
+    private abstract class TestSavingExecutor implements SavingExecutor<TestDomain>{}
 }
