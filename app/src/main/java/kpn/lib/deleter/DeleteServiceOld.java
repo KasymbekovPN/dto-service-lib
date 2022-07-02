@@ -1,6 +1,7 @@
 package kpn.lib.deleter;
 
-public interface DeleteService<I, R> {
+// TODO: del
+public interface DeleteServiceOld<I, R> {
     R byId(I id);
     R all();
 }

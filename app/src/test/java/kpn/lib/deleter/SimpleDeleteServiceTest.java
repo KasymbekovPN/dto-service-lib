@@ -12,11 +12,12 @@ import kpn.utils.MultiConvUtils;
 import kpn.utils.TestDomain;
 import kpn.utils.TestEntity;
 
+// TODO: del
 class SimpleDeleteServiceTest {
 
     @Test
     void shouldCheckFailByIdDeleting(){
-        SimpleDeleteService<Long, TestEntity, TestDomain, String> service = new SimpleDeleteService<>(
+        SimpleDeleteServiceOld<Long, TestEntity, TestDomain, String> service = new SimpleDeleteServiceOld<>(
             new TestDeleterById(false),
             null,
             EDConvUtils.create(),
@@ -29,7 +30,7 @@ class SimpleDeleteServiceTest {
 
     @Test
     void shouldCheckByIdDeleting(){
-        SimpleDeleteService<Long, TestEntity, TestDomain, String> service = new SimpleDeleteService<>(
+        SimpleDeleteServiceOld<Long, TestEntity, TestDomain, String> service = new SimpleDeleteServiceOld<>(
             new TestDeleterById(true),
             null,
             EDConvUtils.create(),
@@ -42,7 +43,7 @@ class SimpleDeleteServiceTest {
 
     @Test
     void shouldCheckFailFullDeleting(){
-        SimpleDeleteService<Long, TestEntity, TestDomain, String> service = new SimpleDeleteService<>(
+        SimpleDeleteServiceOld<Long, TestEntity, TestDomain, String> service = new SimpleDeleteServiceOld<>(
             null,
             new TestDeleterAll(false),
             EDConvUtils.create(),
@@ -55,7 +56,7 @@ class SimpleDeleteServiceTest {
 
     @Test
     void shouldCheckFullDeleting(){
-        SimpleDeleteService<Long, TestEntity, TestDomain, String> service = new SimpleDeleteService<>(
+        SimpleDeleteServiceOld<Long, TestEntity, TestDomain, String> service = new SimpleDeleteServiceOld<>(
             null,
             new TestDeleterAll(true),
             EDConvUtils.create(),

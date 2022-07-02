@@ -7,13 +7,14 @@ import kpn.lib.domains.Domain;
 import kpn.lib.entities.Entity;
 import kpn.lib.exceptions.DTOServiceException;
 
-public class SimpleDeleteService<I, E extends Entity<I>, D extends Domain<I>, R> implements DeleteService<I, R>{
+// TODO: del
+public class SimpleDeleteServiceOld<I, E extends Entity<I>, D extends Domain<I>, R> implements DeleteServiceOld<I, R>{
     private final DeleterByIdOld<I, E> deleterById;
     private final DeleterAllOld<I, E> deleterAll;
     private final EDConverter<I, D, E> edConverter;
     private final MultiConverter<Collection<D>, R> toResultConverter;
 
-    public SimpleDeleteService(DeleterByIdOld<I, E> deleterById,
+    public SimpleDeleteServiceOld(DeleterByIdOld<I, E> deleterById,
                                DeleterAllOld<I, E> deleterAll,
                                EDConverter<I, D, E> edConverter,
                                MultiConverter<Collection<D>, R> toResultConverter) {

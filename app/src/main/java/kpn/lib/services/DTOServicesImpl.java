@@ -2,7 +2,7 @@ package kpn.lib.services;
 
 import java.util.function.Function;
 
-import kpn.lib.deleter.DeleteService;
+import kpn.lib.deleter.DeleteServiceOld;
 import kpn.lib.domains.Domain;
 import kpn.lib.loader.LoadService;
 import kpn.lib.predicate.PredicateService;

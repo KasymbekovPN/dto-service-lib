@@ -30,6 +30,7 @@ class SimpleSavingServiceTest {
         assertThat(result).isEqualTo(new ImmutableServiceResult<>(new ImmutableCollection<>(new TestDomain(ID))));
     }
 
+    // TODO: use mockito proxy
     private static class TestSaver implements SavingExecutor<TestDomain>{
         private final boolean success;
 

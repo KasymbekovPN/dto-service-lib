@@ -1,6 +1,6 @@
 package kpn.lib.services;
 
-import kpn.lib.deleter.DeleteService;
+import kpn.lib.deleter.DeleteServiceOld;
 import kpn.lib.domains.Domain;
 import kpn.lib.loader.LoadService;
 import kpn.lib.predicate.PredicateService;
