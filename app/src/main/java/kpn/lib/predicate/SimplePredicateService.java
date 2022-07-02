@@ -8,11 +8,11 @@ import kpn.lib.entities.Entity;
 import kpn.lib.exceptions.DTOServiceException;
 
 public class SimplePredicateService<I, E extends Entity<I>, D extends Domain<I>, P, R> implements PredicateService<P, R> {
-    private final PredicateExecutor<P, I, E> executor;
+    private final PredicateExecutorOld<P, I, E> executor;
     private final EDConverter<I, D, E> edConverter;
     private final MultiConverter<Collection<D>, R> toResultConverter;
 
-    public SimplePredicateService(PredicateExecutor<P, I, E> executor,
+    public SimplePredicateService(PredicateExecutorOld<P, I, E> executor,
                                   EDConverter<I, D, E> edConverter,
                                   MultiConverter<Collection<D>, R> toResultConverter) {
         this.executor = executor;

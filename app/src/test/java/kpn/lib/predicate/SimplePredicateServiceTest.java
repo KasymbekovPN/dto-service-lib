@@ -38,7 +38,7 @@ class SimplePredicateServiceTest {
         assertThat(result).isEqualTo(MultiConvUtils.SUCCESS_RESULT);
     }
 
-    private static class TestPredicateExecutor implements PredicateExecutor<Integer, Long, TestEntity>{
+    private static class TestPredicateExecutor implements PredicateExecutorOld<Integer, Long, TestEntity>{
         private final boolean success;
 
         public TestPredicateExecutor(boolean success) {
