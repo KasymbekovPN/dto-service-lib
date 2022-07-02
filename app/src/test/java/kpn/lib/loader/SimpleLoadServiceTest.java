@@ -12,11 +12,12 @@ import kpn.utils.MultiConvUtils;
 import kpn.utils.TestDomain;
 import kpn.utils.TestEntity;
 
+// TODO: del
 class SimpleLoadServiceTest {
 
     @Test
     void shouldCheckFailLoadingById(){
-        SimpleLoadService<Long, TestEntity, TestDomain, String> service = new SimpleLoadService<>(
+        SimpleLoadServiceOld<Long, TestEntity, TestDomain, String> service = new SimpleLoadServiceOld<>(
             new TestLoaderById(false),
             null,
             EDConvUtils.create(),
@@ -29,7 +30,7 @@ class SimpleLoadServiceTest {
 
     @Test
     void shouldCheckLoadingById(){
-        SimpleLoadService<Long, TestEntity, TestDomain, String> service = new SimpleLoadService<>(
+        SimpleLoadServiceOld<Long, TestEntity, TestDomain, String> service = new SimpleLoadServiceOld<>(
             new TestLoaderById(true),
             null,
             EDConvUtils.create(),
@@ -42,7 +43,7 @@ class SimpleLoadServiceTest {
 
     @Test
     void shouldCheckFailFullLoading(){
-        SimpleLoadService<Long, TestEntity, TestDomain, String> service = new SimpleLoadService<>(
+        SimpleLoadServiceOld<Long, TestEntity, TestDomain, String> service = new SimpleLoadServiceOld<>(
             null,
             new TestLoaderAll(false),
             EDConvUtils.create(),
@@ -55,7 +56,7 @@ class SimpleLoadServiceTest {
 
     @Test
     void shouldCheckFullLoading() throws DTOServiceException{
-        SimpleLoadService<Long, TestEntity, TestDomain, String> service = new SimpleLoadService<>(
+        SimpleLoadServiceOld<Long, TestEntity, TestDomain, String> service = new SimpleLoadServiceOld<>(
             null,
             new TestLoaderAll(true),
             EDConvUtils.create(),

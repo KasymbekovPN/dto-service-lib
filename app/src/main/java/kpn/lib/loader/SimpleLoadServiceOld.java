@@ -7,13 +7,14 @@ import kpn.lib.domains.Domain;
 import kpn.lib.entities.Entity;
 import kpn.lib.exceptions.DTOServiceException;
 
-public class SimpleLoadService<I, E extends Entity<I>, D extends Domain<I>, R> implements LoadService<I, R> {
+// TODO: del
+public class SimpleLoadServiceOld<I, E extends Entity<I>, D extends Domain<I>, R> implements LoadServiceOld<I, R> {
     private final LoaderByIdOld<I, E> loaderById;
     private final LoaderAllOld<I, E> loaderAll;
     private final EDConverter<I, D, E> edConverter;
     private final MultiConverter<Collection<D>, R> toResultConverter;
 
-    public SimpleLoadService(LoaderByIdOld<I, E> loaderById,
+    public SimpleLoadServiceOld(LoaderByIdOld<I, E> loaderById,
                              LoaderAllOld<I, E> loaderAll,
                              EDConverter<I, D, E> edConverter,
                              MultiConverter<Collection<D>, R> toResultConverter) {

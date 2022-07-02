@@ -2,7 +2,7 @@ package kpn.lib.services;
 
 import kpn.lib.deleter.DeleteServiceOld;
 import kpn.lib.domains.Domain;
-import kpn.lib.loader.LoadService;
+import kpn.lib.loader.LoadServiceOld;
 import kpn.lib.predicate.PredicateService;
 import kpn.lib.services.parts.saving.service.SavingService;
 
