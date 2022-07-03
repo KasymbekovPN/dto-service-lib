@@ -19,7 +19,7 @@ class SavingDecoratorTest {
     private final Function<ServiceResult<TestDomain>, TestResult<TestDomain>> converter = new TestToResultConverter();
  
     @Test
-    void shouldChecksaving_ifSaverNull(){
+    void shouldCheckSaving_ifSaverNull(){
         SavingDecorator<TestDomain, TestResult<TestDomain>> decorator = new SavingDecorator<>(null, converter);
         TestResult<TestDomain> result = decorator.save(domain);
 
@@ -28,7 +28,7 @@ class SavingDecoratorTest {
     }
 
     @Test
-    void shouldChecksaving(){
+    void shouldCheckSaving(){
         SavingDecorator<TestDomain, TestResult<TestDomain>> decorator = new SavingDecorator<>(createService(), new TestToResultConverter());
         TestResult<TestDomain> result = decorator.save(domain);
 
