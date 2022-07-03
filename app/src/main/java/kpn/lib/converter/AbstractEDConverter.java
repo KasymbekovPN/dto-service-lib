@@ -10,6 +10,7 @@ import kpn.lib.collection.ImmutableCollection;
 import kpn.lib.domains.Domain;
 import kpn.lib.entities.Entity;
 
+// TODO: del ???
 public abstract class AbstractEDConverter<I, D extends Domain<I>, E extends Entity<I>> implements EDConverter<I, D, E> {
     private final Supplier<D> domainCreator;
     private final Supplier<E> entityCreator;

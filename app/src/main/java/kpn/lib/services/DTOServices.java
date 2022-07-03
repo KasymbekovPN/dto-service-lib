@@ -7,7 +7,7 @@ import kpn.lib.predicate.PredicateServiceOld;
 import kpn.lib.services.parts.saving.service.SavingService;
 
 public interface DTOServices<I, D, P, R> {
-    SavingService<D, R> saver(D domain);
+    SavingService<D, R> saver();
 
 
     // TODO: !!!

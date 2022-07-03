@@ -4,6 +4,7 @@ import kpn.lib.collection.Collection;
 import kpn.lib.domains.Domain;
 import kpn.lib.entities.Entity;
 
+// TODO: del ???
 public interface EDConverter<I, D extends Domain<I>, E extends Entity<I>> {
     D toDomain(E entity);
     E toEntity(D domain);
