@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import kpn.lib.code.Code;
 import kpn.lib.collection.ImmutableCollection;
 import kpn.lib.exceptions.DTOServiceException;
 import kpn.lib.services.parts.deleting.executor.DeletingAllExecutor;
@@ -20,7 +21,7 @@ class SimpleDeletingServiceTest {
             = new SimpleDeletingService<>(null, null);
 
         assertThat(service.byId(1L))
-            .isEqualTo(new ImmutableServiceResult<TestDomain>("executor.deletingById.method.delete.unsupported"));
+            .isEqualTo(new ImmutableServiceResult<TestDomain>(Code.EXECUTOR_DELETING_BY_ID_UNSUPPORTED.getValue()));
     }
 
     @Test
@@ -38,7 +39,7 @@ class SimpleDeletingServiceTest {
             = new SimpleDeletingService<>(null, null);
 
         assertThat(service.all())
-            .isEqualTo(new ImmutableServiceResult<TestDomain>("executor.deletingAll.method.delete.unsupported"));
+            .isEqualTo(new ImmutableServiceResult<TestDomain>(Code.EXECUTOR_DELETING_ALL_UNSUPPORTED.getValue()));
     }
 
     @Test

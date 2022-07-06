@@ -7,6 +7,7 @@ import java.util.function.Function;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import kpn.lib.code.Code;
 import kpn.lib.collection.ImmutableCollection;
 import kpn.lib.services.result.ImmutableServiceResult;
 import kpn.lib.services.result.ServiceResult;
@@ -25,7 +26,7 @@ class PredicateDecoratorTest {
         PredicateDecorator<TestPredicate, TestDomain, TestResult<TestDomain>> decorator = new PredicateDecorator<>(null, converter);
         TestResult<TestDomain> result = decorator.execute(new TestPredicate());
 
-        TestResult<Object> expectedResult = new TestResult<>("service.predicate.absent");
+        TestResult<Object> expectedResult = new TestResult<>(Code.SERVICE_PREDICATE_UNSUPPORTED.getValue());
         assertThat(result).isEqualTo(expectedResult);
     }
 

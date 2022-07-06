@@ -7,6 +7,7 @@ import java.util.function.Function;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import kpn.lib.code.Code;
 import kpn.lib.collection.ImmutableCollection;
 import kpn.lib.services.result.ImmutableServiceResult;
 import kpn.lib.services.result.ServiceResult;
@@ -23,7 +24,7 @@ class SavingDecoratorTest {
         SavingDecorator<TestDomain, TestResult<TestDomain>> decorator = new SavingDecorator<>(null, converter);
         TestResult<TestDomain> result = decorator.save(domain);
 
-        TestResult<TestDomain> expectedResult = new TestResult<TestDomain>("service.saving.absent");
+        TestResult<TestDomain> expectedResult = new TestResult<TestDomain>(Code.SERVICE_SAVING_UNSUPPORTED.getValue());
         assertThat(result).isEqualTo(expectedResult);
     }
 

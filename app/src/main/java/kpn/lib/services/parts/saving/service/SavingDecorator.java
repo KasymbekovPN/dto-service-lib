@@ -2,6 +2,7 @@ package kpn.lib.services.parts.saving.service;
 
 import java.util.function.Function;
 
+import kpn.lib.code.Code;
 import kpn.lib.services.result.ImmutableServiceResult;
 import kpn.lib.services.result.ServiceResult;
 
@@ -20,7 +21,7 @@ public final class SavingDecorator<D, R> implements SavingService<D, R> {
         return converter.apply(
             saver != null
                 ? saver.save(domain)
-                : new ImmutableServiceResult<>("service.saving.absent")
+                : new ImmutableServiceResult<>(Code.SERVICE_SAVING_UNSUPPORTED.getValue())
         );
     }
 }

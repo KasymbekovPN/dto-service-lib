@@ -7,6 +7,7 @@ import java.util.function.Function;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import kpn.lib.code.Code;
 import kpn.lib.collection.ImmutableCollection;
 import kpn.lib.services.result.ImmutableServiceResult;
 import kpn.lib.services.result.ServiceResult;
@@ -23,7 +24,7 @@ class LoadingDecoratorTest {
         LoadingDecorator<Long, TestDomain, TestResult<TestDomain>> decorator = new LoadingDecorator<>(null, converter);
         TestResult<TestDomain> result = decorator.byId(1L);
 
-        TestResult<Object> expectedResult = new TestResult<>("service.loading.byId.absent");
+        TestResult<Object> expectedResult = new TestResult<>(Code.SERVICE_LOADING_BY_ID_UNSUPPORTED.getValue());
         assertThat(result).isEqualTo(expectedResult);
     }
 
@@ -41,7 +42,7 @@ class LoadingDecoratorTest {
         LoadingDecorator<Long, TestDomain, TestResult<TestDomain>> decorator = new LoadingDecorator<>(null, converter);
         TestResult<TestDomain> result = decorator.all();
 
-        TestResult<Object> expectedResult = new TestResult<>("service.loading.all.absent");
+        TestResult<Object> expectedResult = new TestResult<>(Code.SERVICE_LOADING_ALL_UNSUPPORTED.getValue());
         assertThat(result).isEqualTo(expectedResult);
     }
 

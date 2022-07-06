@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import kpn.lib.code.Code;
 import kpn.lib.collection.ImmutableCollection;
 import kpn.lib.exceptions.DTOServiceException;
 import kpn.lib.services.parts.saving.executor.SavingExecutor;
@@ -19,7 +20,7 @@ class SimpleSavingServiceTest {
     void shouldCheckFailSaving(){
         ServiceResult<TestDomain> result = new SimpleSavingService<TestDomain>(null).save(new TestDomain(ID));
 
-        assertThat(result).isEqualTo(new ImmutableServiceResult<>("executor.saving.method.save.unsupported"));
+        assertThat(result).isEqualTo(new ImmutableServiceResult<>(Code.EXECUTOR_SAVING_UNSUPPORTED.getValue()));
     }
 
     @Test

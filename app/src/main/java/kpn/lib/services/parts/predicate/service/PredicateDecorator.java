@@ -2,6 +2,7 @@ package kpn.lib.services.parts.predicate.service;
 
 import java.util.function.Function;
 
+import kpn.lib.code.Code;
 import kpn.lib.services.result.ImmutableServiceResult;
 import kpn.lib.services.result.ServiceResult;
 
@@ -20,7 +21,7 @@ public final class PredicateDecorator<P, D, R> implements PredicateService<P, R>
         return converter.apply(
             service != null
                 ? service.execute(predicate)
-                : new ImmutableServiceResult<>("service.predicate.absent")
+                : new ImmutableServiceResult<>(Code.SERVICE_PREDICATE_UNSUPPORTED.getValue())
         );
     }
 }

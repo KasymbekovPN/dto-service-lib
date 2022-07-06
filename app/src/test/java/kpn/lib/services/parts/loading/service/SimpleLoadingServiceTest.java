@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import kpn.lib.code.Code;
 import kpn.lib.collection.ImmutableCollection;
 import kpn.lib.exceptions.DTOServiceException;
 import kpn.lib.services.parts.loading.executor.LoadingAllExecutor;
@@ -20,7 +21,7 @@ class SimpleLoadingServiceTest {
         ServiceResult<TestDomain> result
             = new SimpleLoadingService<Long, TestDomain>(null, null).byId(1L);
 
-        assertThat(result).isEqualTo(new ImmutableServiceResult<>("executor.loadingById.method.load.unsupported"));
+        assertThat(result).isEqualTo(new ImmutableServiceResult<>(Code.EXECUTOR_LOADING_BY_ID_UNSUPPORTED.getValue()));
     }
 
     @Test
@@ -36,7 +37,7 @@ class SimpleLoadingServiceTest {
         ServiceResult<TestDomain> result
             = new SimpleLoadingService<Long, TestDomain>(null, null).all();
 
-        assertThat(result).isEqualTo(new ImmutableServiceResult<>("executor.loadingAll.method.load.unsupported"));
+        assertThat(result).isEqualTo(new ImmutableServiceResult<>(Code.EXECUTOR_LOADING_ALL_UNSUPPORTED.getValue()));
     }
 
     @Test

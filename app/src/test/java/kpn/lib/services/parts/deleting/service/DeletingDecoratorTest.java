@@ -7,6 +7,7 @@ import java.util.function.Function;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import kpn.lib.code.Code;
 import kpn.lib.collection.ImmutableCollection;
 import kpn.lib.services.result.ImmutableServiceResult;
 import kpn.lib.services.result.ServiceResult;
@@ -22,7 +23,7 @@ class DeletingDecoratorTest {
         DeletingDecorator<Long, TestDomain, TestResult<TestDomain>> decorator = new DeletingDecorator<>(null, converter);
         TestResult<TestDomain> result = decorator.byId(1L);
 
-        TestResult<Object> expectedResult = new TestResult<>("service.deleting.byId.absent");
+        TestResult<Object> expectedResult = new TestResult<>(Code.SERVICE_DELETING_BY_ID_UNSUPPORTED.getValue());
         assertThat(result).isEqualTo(expectedResult);
     }
 
@@ -40,7 +41,7 @@ class DeletingDecoratorTest {
         DeletingDecorator<Long, TestDomain, TestResult<TestDomain>> decorator = new DeletingDecorator<>(null, converter);
         TestResult<TestDomain> result = decorator.all();
 
-        TestResult<Object> expectedResult = new TestResult<>("service.deleting.all.absent");
+        TestResult<Object> expectedResult = new TestResult<>(Code.SERVICE_DELETING_ALL_UNSUPPORTED.getValue());
         assertThat(result).isEqualTo(expectedResult);
     }
 

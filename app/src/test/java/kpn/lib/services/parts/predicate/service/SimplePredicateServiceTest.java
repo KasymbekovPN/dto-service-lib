@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import kpn.lib.code.Code;
 import kpn.lib.collection.ImmutableCollection;
 import kpn.lib.exceptions.DTOServiceException;
 import kpn.lib.services.parts.predicate.executor.PredicateExecutor;
@@ -20,7 +21,7 @@ class SimplePredicateServiceTest {
         ServiceResult<TestDomain> result
             = new SimplePredicateService<TestPredicate, TestDomain>(null).execute(new TestPredicate());
         
-        assertThat(result).isEqualTo(new ImmutableServiceResult<>("executor.predicate.method.execute.unsupported"));
+        assertThat(result).isEqualTo(new ImmutableServiceResult<>(Code.EXECUTOR_PREDICATE_UNSUPPORTED.getValue()));
     }
 
     @Test

@@ -2,6 +2,7 @@ package kpn.lib.services.parts.deleting.service;
 
 import java.util.function.Function;
 
+import kpn.lib.code.Code;
 import kpn.lib.services.result.ImmutableServiceResult;
 import kpn.lib.services.result.ServiceResult;
 
@@ -20,7 +21,7 @@ public final class DeletingDecorator<I, D, R> implements DeletingService<I, R> {
         return converter.apply(
             service != null
                 ? service.byId(id)
-                : new ImmutableServiceResult<>("service.deleting.byId.absent")
+                : new ImmutableServiceResult<>(Code.SERVICE_DELETING_BY_ID_UNSUPPORTED.getValue())
         );
     }
 
@@ -29,7 +30,7 @@ public final class DeletingDecorator<I, D, R> implements DeletingService<I, R> {
         return converter.apply(
             service != null
                 ? service.all()
-                : new ImmutableServiceResult<>("service.deleting.all.absent")
+                : new ImmutableServiceResult<>(Code.SERVICE_DELETING_ALL_UNSUPPORTED.getValue())
         );
     }
 }
