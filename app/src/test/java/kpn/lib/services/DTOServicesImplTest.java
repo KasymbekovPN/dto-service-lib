@@ -34,10 +34,13 @@ class DTOServicesImplTest {
     
     @Test
     void shouldCheckSaver(){
-        DTOServices<Long, TestDomain, TestPredicate, TestResult<TestDomain>> service 
-            = DTOServicesImpl.<Long, TestDomain, TestPredicate, TestResult<TestDomain>>buider(converter)
-            .saver(createSavingService())
-            .build();
+        DTOServicesImpl<Long, TestDomain, TestPredicate, TestResult<TestDomain>> service = new DTOServicesImpl<>(
+            createSavingService(),
+            null,
+            null,
+            null,
+            converter
+        );
         TestResult<TestDomain> expectedResult
             = converter.apply(new ImmutableServiceResult<>(new ImmutableCollection<TestDomain>(domain)));
         
@@ -49,10 +52,13 @@ class DTOServicesImplTest {
 
     @Test
     void shouldCheckLoader(){
-        DTOServices<Long, TestDomain, TestPredicate, TestResult<TestDomain>> service 
-            = DTOServicesImpl.<Long, TestDomain, TestPredicate, TestResult<TestDomain>>buider(converter)
-            .loader(createLoadingService())
-            .build();
+        DTOServicesImpl<Long, TestDomain, TestPredicate, TestResult<TestDomain>> service = new DTOServicesImpl<>(
+            null,
+            createLoadingService(),
+            null,
+            null,
+            converter
+        );
         TestResult<TestDomain> expectedResult
             = converter.apply(new ImmutableServiceResult<>(new ImmutableCollection<TestDomain>(domain)));
         
@@ -64,10 +70,13 @@ class DTOServicesImplTest {
 
     @Test
     void shouldCheckDeleter(){
-        DTOServices<Long, TestDomain, TestPredicate, TestResult<TestDomain>> service 
-            = DTOServicesImpl.<Long, TestDomain, TestPredicate, TestResult<TestDomain>>buider(converter)
-            .deleter(createDeletingService())
-            .build();
+        DTOServicesImpl<Long, TestDomain, TestPredicate, TestResult<TestDomain>> service = new DTOServicesImpl<>(
+            null,
+            null,
+            createDeletingService(),
+            null,
+            converter
+        );
         TestResult<TestDomain> expectedResult
             = converter.apply(new ImmutableServiceResult<>(new ImmutableCollection<TestDomain>(domain)));
         
@@ -79,10 +88,13 @@ class DTOServicesImplTest {
 
     @Test
     void shouldCheckPredicate(){
-        DTOServices<Long, TestDomain, TestPredicate, TestResult<TestDomain>> service 
-            = DTOServicesImpl.<Long, TestDomain, TestPredicate, TestResult<TestDomain>>buider(converter)
-            .executor(createPredicareService())
-            .build();
+        DTOServicesImpl<Long, TestDomain, TestPredicate, TestResult<TestDomain>> service = new DTOServicesImpl<>(
+            null,
+            null,
+            null,
+            createPredicareService(),
+            converter
+        );
         TestResult<TestDomain> expectedResult
             = converter.apply(new ImmutableServiceResult<>(new ImmutableCollection<TestDomain>(domain)));
         
