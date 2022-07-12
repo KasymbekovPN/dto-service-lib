@@ -2,23 +2,24 @@ package kpn.utils;
 
 import java.util.Arrays;
 
-import kpn.lib.collection.Collection;
-import kpn.lib.services.result.ServiceResult;
+import kpn.lib.aspect.AspectResult;
+import kpn.lib.domain.Domain;
+import kpn.lib.executor.ExecutorResult;
 
-public final class TestResult<D> {
+public final class TestResult<D extends Domain<?>> {
     private final boolean success;
-    private final Collection<D> collection;
+    private final ExecutorResult<D> collection;
     private final String code;
     private final String[] args;
 
-    public TestResult(ServiceResult<D> result) {
+    public TestResult(AspectResult<D> result) {
         this.success = result.isSuccess();
-        this.collection = result.getCollection();
+        this.collection = result.getExecutorResult();
         this.code = result.getCode();
         this.args = result.getArgs();
     }
 
-    public TestResult(Collection<D> collection){
+    public TestResult(ExecutorResult<D> collection){
         this.success = true;
         this.collection = collection;
         this.code = null;

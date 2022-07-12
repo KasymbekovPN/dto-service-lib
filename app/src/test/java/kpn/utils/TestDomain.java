@@ -1,6 +1,6 @@
 package kpn.utils;
 
-import kpn.lib.domains.AbstractDomain;
+import kpn.lib.domain.AbstractDomain;
 
 public class TestDomain extends AbstractDomain<Long> {
     

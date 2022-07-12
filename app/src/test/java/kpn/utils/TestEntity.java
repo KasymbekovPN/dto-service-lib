@@ -1,6 +1,6 @@
 package kpn.utils;
 
-import kpn.lib.entities.AbstractEntity;
+import kpn.lib.entity.AbstractEntity;
 
 public class TestEntity extends AbstractEntity<Long>{
     private Long id;
