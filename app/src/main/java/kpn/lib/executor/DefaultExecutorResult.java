@@ -1,5 +1,7 @@
 package kpn.lib.executor;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -9,15 +11,17 @@ public class DefaultExecutorResult<D extends Domain<?>> implements ExecutorResul
     private final List<D> content;
 
     public DefaultExecutorResult(List<D> content) {
-        this.content = content;
+        this.content = Collections.unmodifiableList(content);
     }
 
     public DefaultExecutorResult(D item){
-        this.content = List.of(item);
+        List<D> list = new ArrayList<>();
+        list.add(item);
+        this.content = Collections.unmodifiableList(list);
     }
 
     public DefaultExecutorResult(){
-        this.content = List.of();
+        this.content = Collections.unmodifiableList(new ArrayList<>());
     }
 
     @Override

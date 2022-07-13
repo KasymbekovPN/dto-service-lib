@@ -1,6 +1,8 @@
 package kpn.lib.domain;
 
 import java.util.ArrayDeque;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
 import java.util.function.Function;
@@ -74,7 +76,7 @@ public abstract class AbstractDomain<I> implements Domain<I> {
     }
 
     protected Map<String, Function<GetterArg<I>, String>> takeGetters(){
-        return Map.of();
+        return Collections.unmodifiableMap(new HashMap<String, Function<GetterArg<I>, String>>());
     }
 
     protected static class GetterArg<I> {
