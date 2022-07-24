@@ -1,17 +1,6 @@
 package kpn.lib.domain;
 
-import java.util.ArrayDeque;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Queue;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 public abstract class AbstractDomain<I> implements Domain<I> {
-    private static final String DEFAULT_GETTING_RESULT = "-";
-
     private I id;
 
     @Override
@@ -26,28 +15,7 @@ public abstract class AbstractDomain<I> implements Domain<I> {
 
     @Override
     public String getInfo() {
-        return DEFAULT_GETTING_RESULT;
-    }
-
-    @Override
-    public String getInDeep(Queue<String> path) {
-        String key = path.poll();
-        if (key != null){
-            Map<String, Function<GetterArg<I>, String>> getters = takeGetters();
-            if (getters.containsKey(key)){
-                return getters.get(key).apply(new GetterArg<>(this, path));
-            }
-        }
-        return DEFAULT_GETTING_RESULT;
-    }
-
-    @Override
-    public String getInDeep(String... path) {
-        return getInDeep(
-            new ArrayDeque<>(
-                Stream.of(path).collect(Collectors.toList())
-            )
-        );
+        return "-";
     }
 
     @Override
@@ -73,26 +41,5 @@ public abstract class AbstractDomain<I> implements Domain<I> {
         } else if (!id.equals(other.id))
             return false;
         return true;
-    }
-
-    protected Map<String, Function<GetterArg<I>, String>> takeGetters(){
-        return Collections.unmodifiableMap(new HashMap<String, Function<GetterArg<I>, String>>());
-    }
-
-    protected static class GetterArg<I> {
-        private final Domain<I> domain;
-        private final Queue<String> path;
-
-        public GetterArg(Domain<I> domain, Queue<String> path) {
-            this.domain = domain;
-            this.path = path;
-        }
-        
-        public Domain<I> getDomain() {
-            return domain;
-        }
-        public Queue<String> getPath() {
-            return path;
-        }       
     }
 }
